@@ -2,6 +2,8 @@
  * Create a list that holds all of your cards
  */
 
+const cardTypes = ['anchor', 'diamond', 'leaf', 'bomb', 'bolt', 'bicycle', 'paper-plane-o', 'cube'];
+let cards = shuffle(cardTypes.concat(cardTypes));
 
 /*
  * Display the cards on the page
@@ -9,6 +11,21 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+const deck = document.querySelector('.deck')
+function displayCards() {
+	deck.innerHTML="";
+	const cardsToShow = document.createDocumentFragment();
+	cards.forEach(function(card){
+		const icon = document.createElement('i')
+		icon.className = `fa fa-${card}`;
+		const flipper = document.createElement('li')
+		flipper.className = `card`;
+		flipper.appendChild(icon);
+		cardsToShow.appendChild(flipper);
+	});
+	deck.appendChild(cardsToShow);
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -36,3 +53,4 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
