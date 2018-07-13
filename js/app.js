@@ -16,7 +16,7 @@ const deck = document.querySelector('.deck')
 function displayCards() {
 	deck.innerHTML="";
 	const cardsToShow = document.createDocumentFragment();
-	cards.forEach(function(card){
+	shuffle(cards).forEach(function(card){
 		const icon = document.createElement('i')
 		icon.className = `fa fa-${card}`;
 		const flipper = document.createElement('li')
@@ -26,6 +26,12 @@ function displayCards() {
 	});
 	deck.appendChild(cardsToShow);
 }
+
+const restart = document.querySelector(".restart");
+restart.addEventListener('click', function (e) {
+	displayCards();
+});
+displayCards();
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -43,6 +49,7 @@ function shuffle(array) {
 }
 
 
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -54,3 +61,23 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+let pickCount = true;
+deck.addEventListener('click', function (e) {
+	pickCount=!pickCount;
+	e.path[0].classList.add('open');
+	// e.path[0].classList.add('show');
+	if (pickCount) {
+		setTimeout(testPicks, 1000);
+	}
+});
+
+function testPicks() {
+	let testCards = document.querySelectorAll('.open');
+	if (testCards[0].children[0].className == testCards[1].children[0].className) {
+		console.log(testCards);
+		testCards[0].classList.add('match');
+		testCards[1].classList.add('match');
+	} else {}
+	testCards[0].classList.toggle('open');
+	testCards[1].classList.toggle('open');
+}
