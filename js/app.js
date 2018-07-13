@@ -30,6 +30,9 @@ function displayCards() {
 const restart = document.querySelector(".restart");
 restart.addEventListener('click', function (e) {
 	displayCards();
+	moveCount=-1;
+	incrementMove();
+	stars.innerHTML='<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>'
 });
 displayCards();
 
@@ -62,22 +65,44 @@ function shuffle(array) {
  */
 
 let pickCount = true;
+let turnCount = true
 deck.addEventListener('click', function (e) {
-	pickCount=!pickCount;
-	e.path[0].classList.add('open');
-	// e.path[0].classList.add('show');
-	if (pickCount) {
-		setTimeout(testPicks, 1000);
+	let clickedCard = e.path[0]
+	if (clickedCard.className=="card") {
+		if (turnCount) {
+			pickCount=!pickCount;
+			e.path[0].classList.add('open');
+		// e.path[0].classList.add('show');
+			if (pickCount) {
+				turnCount=!turnCount
+				// console.log(turnCount)
+				setTimeout(testPicks, 1000);
+				incrementMove();
+			}
+		}
 	}
 });
 
+let moveCount=0;
+const moveNumber = document.querySelector('.moves')
+const stars = document.querySelector('.stars')
+function incrementMove() {
+	moveCount++;
+	moveNumber.innerHTML=moveCount;
+	if (moveCount%2==0 && stars.children.length>0) {
+		stars.removeChild(stars.firstElementChild);
+	}
+}
+
 function testPicks() {
 	let testCards = document.querySelectorAll('.open');
-	if (testCards[0].children[0].className == testCards[1].children[0].className) {
 		console.log(testCards);
+	if (testCards[0].children[0].className == testCards[1].children[0].className) {
 		testCards[0].classList.add('match');
 		testCards[1].classList.add('match');
 	} else {}
 	testCards[0].classList.toggle('open');
 	testCards[1].classList.toggle('open');
+	turnCount=!turnCount
 }
+
