@@ -27,13 +27,18 @@ function displayCards() {
 	deck.appendChild(cardsToShow);
 }
 
+// Event listener that resets all of the game elements
+
 const restart = document.querySelector(".restart");
 restart.addEventListener('click', function (e) {
 	displayCards();
 	moveCount=-1;
 	incrementMove();
-	stars.innerHTML='<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>'
+	stars.innerHTML='<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>'
+    stopClock();
+    timer.innerHTML = '0';
 });
+
 displayCards();
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -65,44 +70,79 @@ function shuffle(array) {
  */
 
 let pickCount = true;
-let turnCount = true
+let turnCount = true;
 deck.addEventListener('click', function (e) {
-	let clickedCard = e.path[0]
+	let clickedCard = e.path[0];
 	if (clickedCard.className=="card") {
 		if (turnCount) {
 			pickCount=!pickCount;
 			e.path[0].classList.add('open');
 		// e.path[0].classList.add('show');
 			if (pickCount) {
-				turnCount=!turnCount
-				// console.log(turnCount)
-				setTimeout(testPicks, 1000);
+				turnCount=!turnCount;
+				setTimeout(testPicks, 999);
 				incrementMove();
 			}
 		}
 	}
 });
 
+let correctCards=0;
+// test for matches after move made
+function testPicks() {
+	let testCards = document.querySelectorAll('.open');
+	if (testCards[0].children[0].className == testCards[1].children[0].className) {
+		testCards[0].classList.add('match');
+		testCards[1].classList.add('match');
+		correctCards++;
+		if (correctCards==8) {
+			winGame();
+		}
+	} else {}
+	testCards[0].classList.toggle('open');
+	testCards[1].classList.toggle('open');
+	turnCount=!turnCount;
+}
+
+
+// test for winning board
+const hidden = document.querySelector('.hidden');
+function winGame() {
+	stopClock();
+	hidden.insertAdjacentHTML('beforeend', `<h3>You have beaten the game in ${timeCount} seconds, with a ${starCount} star rating!</h3>` );
+	hidden.classList.toggle('hidden');
+}
+
+// function for counting moves
 let moveCount=0;
+let starCount=5;
 const moveNumber = document.querySelector('.moves')
 const stars = document.querySelector('.stars')
 function incrementMove() {
 	moveCount++;
 	moveNumber.innerHTML=moveCount;
-	if (moveCount%2==0 && stars.children.length>0) {
+	if (moveCount%8==0 && stars.children.length>1) {
 		stars.removeChild(stars.firstElementChild);
+		starCount--;
+	} else if (moveCount==1) {
+		startClock();
 	}
 }
-
-function testPicks() {
-	let testCards = document.querySelectorAll('.open');
-		console.log(testCards);
-	if (testCards[0].children[0].className == testCards[1].children[0].className) {
-		testCards[0].classList.add('match');
-		testCards[1].classList.add('match');
-	} else {}
-	testCards[0].classList.toggle('open');
-	testCards[1].classList.toggle('open');
-	turnCount=!turnCount
+// timer function
+let timerOn = false;
+let timeCount = 0;
+const timer = document.querySelector('.timer');
+function startClock() {
+    if (timerOn == false) {
+		timeCount = 0;
+        timerOn = setInterval(function () {
+            timeCount++;
+            timer.innerHTML = timeCount;
+        }, 1000);
+    }
 }
-
+// stop timer
+function stopClock() {
+    clearInterval(timerOn);
+    timerOn = false;
+}
