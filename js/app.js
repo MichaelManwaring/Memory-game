@@ -34,7 +34,13 @@ restart.addEventListener('click', function (e) {
 	displayCards();
 	moveCount=-1;
 	incrementMove();
-	stars.innerHTML='<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>'
+	stars.innerHTML=`
+		<li><i class="fa fa-star"></i></li>
+		<li><i class="fa fa-star"></i></li>
+		<li><i class="fa fa-star"></i></li>
+		<li><i class="fa fa-star"></i></li>
+		<li><i class="fa fa-star"></i></li>
+	`;
     stopClock();
     timer.innerHTML = '0';
 });
@@ -111,6 +117,9 @@ function winGame() {
 	stopClock();
 	hidden.insertAdjacentHTML('beforeend', `<h3>You have beaten the game in ${timeCount} seconds, with a ${starCount} star rating!</h3>` );
 	hidden.classList.toggle('hidden');
+	setTimeout(function() {
+		hidden.insertAdjacentHTML('beforeend', `<h3><a href='index.html'>Play Again?</a></h3>`)
+	}, 3000);
 }
 
 // function for counting moves
