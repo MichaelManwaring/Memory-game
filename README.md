@@ -1,14 +1,7 @@
-# Memory Game Project
+# Matching Memory Game
 
-## Table of Contents
+This classic card game is the fourth project in the Udacity Front End Developer Nanodegree. The starter code is [here](https://github.com/udacity/fend-project-memory-game).
 
-* [Instructions](#instructions)
+The gameplay is controlled by vanilla JavaScript manipulation of the DOM. Card icons are provided by [font-awesome](https://fontawesome.com/) and the page uses [Coda font](https://fonts.google.com/specimen/Coda) from Google.
 
-
-## Instructions
-
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+If you would like to play this game on your machine, download the repo and navigate to index.html in your browser. Please let me know if you spot any bugs, or have a recommendation!
